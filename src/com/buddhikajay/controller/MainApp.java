@@ -1,5 +1,6 @@
 package com.buddhikajay.controller;
 
+import com.buddhikajay.SqliteDatabase;
 import com.buddhikajay.model.TableTransaction;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -21,6 +22,7 @@ public class MainApp extends Application{
     private Stage primaryStage;
     private BorderPane rootLayout;
     private ObservableList<TableTransaction> transactions = FXCollections.observableArrayList();
+    final String DB_URL = "C://Users//Buddhika//Documents//Programming//IdeaProjects//VirtualCreditDesktop//database//test.sqlite";
 
     public MainApp(){
         //creates test dataset for transactionOverview controller
@@ -53,7 +55,7 @@ public class MainApp extends Application{
             AnchorPane overviewPage = loader.load();
             rootLayout.setCenter(overviewPage);
             TransactionOverviewController controller = loader.getController();
-            controller.setMainApp(this);
+            controller.setMainApp(this, new SqliteDatabase(DB_URL));
         }
         catch (IOException e){
             e.printStackTrace();
