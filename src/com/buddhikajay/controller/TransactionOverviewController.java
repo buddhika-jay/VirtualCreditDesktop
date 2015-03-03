@@ -2,14 +2,19 @@ package com.buddhikajay.controller;
 
 import com.buddhikajay.SqliteDatabase;
 import com.buddhikajay.model.TableTransaction;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Dialogs;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.beans.value.ChangeListener;
 
+import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.SplittableRandom;
@@ -61,6 +66,7 @@ public class TransactionOverviewController {
 
     @FXML
     public void initialize(){
+        //observable table columns
         resolvedColumn.setCellValueFactory(new PropertyValueFactory<TableTransaction, String>("resolved"));
         personColumn.setCellValueFactory(new PropertyValueFactory<TableTransaction, String>("person"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<TableTransaction, Float>("amount"));
@@ -68,31 +74,46 @@ public class TransactionOverviewController {
         typeColumn.setCellValueFactory(new PropertyValueFactory<TableTransaction, String>("type"));
         idColumn.setCellValueFactory(new PropertyValueFactory<TableTransaction, Integer>("id"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<TableTransaction, String>("description"));
+
+        reportTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);//dont know what
+        reportTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TableTransaction>() {
+            @Override
+            public void changed(ObservableValue<? extends TableTransaction> observable, TableTransaction oldValue, TableTransaction newValue) {
+                /*
+                Do something with new selected value
+                 */
+            }
+        });
     }
 
     public void setMainApp(MainApp mainApp, SqliteDatabase database){
         this.mainApp = mainApp;
         this.database = database;
         //reportTable.setItems(mainApp.getTransactions());
-        this.setReportTable(this.getAllTransactionsFromDatabase());
+        this.setReportTable(this.getAllTransactionsFromDatabase());//extracting data from the database and displaying them on the table
     }
 
     public SqliteDatabase getDatabase() {
         return database;
-    }
+    }//retun the database
 
     public void setDatabase(SqliteDatabase database) {
         this.database = database;
     }
 
+    /*returning the String query for extracting all the data that the table should display
+
+     */
     public String getGET_ALL_TRANSACTIONS() {
         return GET_ALL_TRANSACTIONS;
     }
 
-    public void setGET_ALL_TRANSACTIONS(String GET_ALL_TRANSACTIONS) {
+    public void setGET_ALL_TRANSACTIONS(String GET_ALL_TRANSACTIONS) {//set the query to extract all the data that the table should display
         this.GET_ALL_TRANSACTIONS = GET_ALL_TRANSACTIONS;
     }
-
+    /*extracting all the data from the database that the table should display and format them.
+    will return an Observable list array of table row data model.
+     */
     public ObservableList<TableTransaction> getAllTransactionsFromDatabase(){
         ObservableList<TableTransaction> tableTransactions = FXCollections.observableArrayList();
         TableTransaction tempTableTransaction = new TableTransaction();
@@ -124,7 +145,9 @@ public class TransactionOverviewController {
                 e.printStackTrace();
             }
         }
-        else System.out.println("Database Returned null");
+        else {
+            System.out.println("Result set empty");
+        }
 
         return tableTransactions;
     }
@@ -133,5 +156,25 @@ public class TransactionOverviewController {
         reportTable.setItems(transactions);
     }
 
-
+    /*
+    Method to activate when delete button is pressed
+     */
+    @FXML
+    public void deleteActionFired(ActionEvent actionEvent) {
+        /*
+        To delete
+         */
+        int selectedTransactionIndex = reportTable.getSelectionModel().getSelectedIndex();
+        if(selectedTransactionIndex>-1){//if user selected row
+            /*
+            delete corresponding transaction from the list
+             */
+            reportTable.getItems().remove(selectedTransactionIndex);
+        }
+        else {//if user has not selected a row
+            /*
+            Show a warning dialog
+             */
+        }
+    }
 }
