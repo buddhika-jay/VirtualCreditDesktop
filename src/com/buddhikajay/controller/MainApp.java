@@ -47,6 +47,8 @@ public class MainApp extends Application{
             e.printStackTrace();
         }
         showTransactionOverview();
+        NewTransactionDialogController newTransactionDialogController = new NewTransactionDialogController(this);
+        newTransactionDialogController.showNewTransactionDialog();
 
     }
     /*
@@ -65,6 +67,7 @@ public class MainApp extends Application{
         }
 
     }
+
     public ObservableList<TableTransaction> getTransactions() {
         return transactions;
     }
