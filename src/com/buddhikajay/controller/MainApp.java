@@ -15,6 +15,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Created by Buddhika Jayawardhana on 01/03/2015.
@@ -31,11 +33,13 @@ public class MainApp extends Application{
     Url of the sqlite database
      */
     final String DB_URL = "C://Users//Buddhika//Documents//Programming//IdeaProjects//VirtualCreditDesktop//database//test.sqlite";
+    private String GET_ALL_TRANSACTIONS = "SELECT * FROM tran";
 
     public MainApp(){
         //creates test dataset for transactionOverview controller
         transactions.add(new TableTransaction(1,"Buddhika", 100, "Lend", "2015", "Yes", "Ananm manam" ));//int id, String person, float amount, String type, String date, String resolved, String description
         database = new SqliteDatabase(DB_URL);
+        setTransacions();
     }
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -91,7 +95,9 @@ public class MainApp extends Application{
             AnchorPane overviewPage = loader.load();
             rootLayout.setCenter(overviewPage);
             TransactionOverviewController controller = loader.getController();
-            controller.setMainApp(this, database);
+            controller.setMainApp(this);
+            controller.setTransactions(this.transactions);
+            controller.setReportTable();
         }
         catch (IOException e){
             e.printStackTrace();
@@ -103,6 +109,44 @@ public class MainApp extends Application{
         this.newTransactionDialogController = new NewTransactionDialogController();
         newTransactionDialogController.setMainApp(this);
         newTransactionDialogController.showNewTransactionDialog();
+    }
+    /*extracting all the data from the database that the table should display and format them.
+        will return an Observable list array of table row data model.
+         */
+    public void setTransacions(){
+        TableTransaction tempTableTransaction = new TableTransaction();
+        ResultSet resultSet = null;
+        try {
+            database.connect();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            resultSet = database.getData(GET_ALL_TRANSACTIONS);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(resultSet!=null){
+            try {
+                while (resultSet.next()){
+                    tempTableTransaction.setId(Integer.parseInt(resultSet.getString("id")));
+                    tempTableTransaction.setDate(resultSet.getString("date"));
+                    tempTableTransaction.setAmount(Float.parseFloat(resultSet.getString("amount")));
+                    tempTableTransaction.setPerson(resultSet.getString("person"));
+                    tempTableTransaction.setType(resultSet.getString("type"));
+                    tempTableTransaction.setResolved(resultSet.getString("resolved"));
+                    tempTableTransaction.setDescription(resultSet.getString("description"));
+
+                    this.transactions.add(tempTableTransaction);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            System.out.println("Result set empty");
+        }
+
     }
 
 

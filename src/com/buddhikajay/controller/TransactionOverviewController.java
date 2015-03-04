@@ -26,11 +26,8 @@ import java.util.SplittableRandom;
 public class TransactionOverviewController {
     private MainApp mainApp;
 
-    private SqliteDatabase database;
-
     private ObservableList<TableTransaction> transactions = FXCollections.observableArrayList();
 
-    private String GET_ALL_TRANSACTIONS = "SELECT * FROM tran";
 
     @FXML
     private Button deleteButton;
@@ -89,75 +86,23 @@ public class TransactionOverviewController {
         });
     }
 
-    public void setMainApp(MainApp mainApp, SqliteDatabase database){
+    public void setMainApp(MainApp mainApp){
         this.mainApp = mainApp;
-        this.database = database;
-        //reportTable.setItems(mainApp.getTransactions());
-        this.setReportTable(this.getAllTransactionsFromDatabase());//extracting data from the database and displaying them on the table
     }
 
-    public SqliteDatabase getDatabase() {
-        return database;
-    }//retun the database
-
-    public void setDatabase(SqliteDatabase database) {
-        this.database = database;
+    public ObservableList<TableTransaction> getTransactions() {
+        return transactions;
     }
 
-    /*returning the String query for extracting all the data that the table should display
-
-     */
-    public String getGET_ALL_TRANSACTIONS() {
-        return GET_ALL_TRANSACTIONS;
+    public void setTransactions(ObservableList<TableTransaction> transactions) {
+        this.transactions = transactions;
     }
 
-    public void setGET_ALL_TRANSACTIONS(String GET_ALL_TRANSACTIONS) {//set the query to extract all the data that the table should display
-        this.GET_ALL_TRANSACTIONS = GET_ALL_TRANSACTIONS;
-    }
-    /*extracting all the data from the database that the table should display and format them.
-    will return an Observable list array of table row data model.
-     */
-    public ObservableList<TableTransaction> getAllTransactionsFromDatabase(){
-        ObservableList<TableTransaction> tableTransactions = FXCollections.observableArrayList();
-        TableTransaction tempTableTransaction = new TableTransaction();
-        ResultSet resultSet = null;
-        try {
-            database.connect();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            resultSet = database.getData(GET_ALL_TRANSACTIONS);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        if(resultSet!=null){
-            try {
-                while (resultSet.next()){
-                    tempTableTransaction.setId(Integer.parseInt(resultSet.getString("id")));
-                    tempTableTransaction.setDate(resultSet.getString("date"));
-                    tempTableTransaction.setAmount(Float.parseFloat(resultSet.getString("amount")));
-                    tempTableTransaction.setPerson(resultSet.getString("person"));
-                    tempTableTransaction.setType(resultSet.getString("type"));
-                    tempTableTransaction.setResolved(resultSet.getString("resolved"));
-                    tempTableTransaction.setDescription(resultSet.getString("description"));
 
-                    tableTransactions.add(tempTableTransaction);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        else {
-            System.out.println("Result set empty");
-        }
-
-        return tableTransactions;
+    public void setReportTable(){
+        reportTable.setItems(this.transactions);
     }
 
-    public void setReportTable(ObservableList<TableTransaction> transactions){
-        reportTable.setItems(transactions);
-    }
 
     /*
     Method to activate when delete button is pressed

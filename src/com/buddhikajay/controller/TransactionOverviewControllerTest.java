@@ -15,12 +15,4 @@ public class TransactionOverviewControllerTest {
     public void setup(){
         toControl = new TransactionOverviewController();
     }
-    @Test
-    public void testGetAllTransactionsFromDatabase() throws Exception {
-        SqliteDatabase database = new SqliteDatabase(dbUrl);
-        toControl.setDatabase(database);
-        toControl.setGET_ALL_TRANSACTIONS("SELECT * FROM tran");
-        //TableTransaction tableTransaction =  new TableTransaction(1, "1", 1, "1", "1", "1", "1");//int id, String person, float amount, String type, String date, String resolved, String description
-        assertEquals(2, toControl.getAllTransactionsFromDatabase().get(0).getId());
-    }
 }
