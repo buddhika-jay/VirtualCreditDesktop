@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Dialogs;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -47,8 +48,7 @@ public class MainApp extends Application{
             e.printStackTrace();
         }
         showTransactionOverview();
-        NewTransactionDialogController newTransactionDialogController = new NewTransactionDialogController(this);
-        newTransactionDialogController.showNewTransactionDialog();
+        showNewTransactionDialog();
 
     }
     /*
@@ -65,6 +65,28 @@ public class MainApp extends Application{
         catch (IOException e){
             e.printStackTrace();
         }
+
+    }
+    public void showNewTransactionDialog(){
+
+        try {
+            FXMLLoader loader = new FXMLLoader();//("/com/buddhikajay/view/NewTransactionDialog.fxml"));
+            loader.setLocation(MainApp.class.getResource("/com/buddhikajay/view/NewTransactionDialog.fxml"));
+            loader.setController(new NewTransactionDialogController());
+            AnchorPane anchorPane = (AnchorPane)loader.load();
+            Scene scene = new Scene(anchorPane);
+            Stage stage = new Stage();
+            stage.setTitle("Add New Transaction");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(primaryStage);
+            stage.setScene(scene);
+            stage.showAndWait();
+
+            //set the controller
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 
