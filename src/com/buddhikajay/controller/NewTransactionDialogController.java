@@ -19,6 +19,12 @@ import javafx.stage.Stage;
 
 public class NewTransactionDialogController{
 
+    MainApp mainApp;
+    Stage stage;
+    Scene scene;
+    TableTransaction transaction;
+    AnchorPane anchorPane;
+
     @FXML
     private TextField idTextField;
 
@@ -47,18 +53,48 @@ public class NewTransactionDialogController{
     private ComboBox<String> personComboBox;
 
     @FXML
-    void okActionFired(ActionEvent event) {
-
+    public void okActionFired(ActionEvent event) {
+        transaction = new TableTransaction();
+        transaction.setDate(dateTextField.getText());
+        transaction.setAmount(Float.parseFloat(amountTextField.getText()));
     }
 
     @FXML
-    void cancleActionFired(ActionEvent event) {
+    public void cancleActionFired(ActionEvent event) {
+        this.stage.close();
+    }
+
+    public NewTransactionDialogController(){}
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+    }
+
+    public void showNewTransactionDialog(){
+
+        try {
+            FXMLLoader loader = new FXMLLoader(NewTransactionDialogController.class.getResource("/com/buddhikajay/view/NewTransactionDialog.fxml"));//("/com/buddhikajay/view/NewTransactionDialog.fxml"));
+            anchorPane = (AnchorPane)loader.load();
+            scene = new Scene(anchorPane);
+            stage = new Stage();
+            stage.setTitle("Add New Transaction");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(mainApp.getPrimaryStage());
+            stage.setScene(scene);
+            stage.showAndWait();
+
+            //set the controller
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 
-    @FXML
-    public void initialize(){}
-    NewTransactionDialogController(){}
 
 }
 

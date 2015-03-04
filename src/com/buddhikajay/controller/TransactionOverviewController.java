@@ -4,6 +4,7 @@ import com.buddhikajay.SqliteDatabase;
 import com.buddhikajay.model.TableTransaction;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,6 +27,8 @@ public class TransactionOverviewController {
     private MainApp mainApp;
 
     private SqliteDatabase database;
+
+    private ObservableList<TableTransaction> transactions = FXCollections.observableArrayList();
 
     private String GET_ALL_TRANSACTIONS = "SELECT * FROM tran";
 
@@ -176,5 +179,13 @@ public class TransactionOverviewController {
             Show a warning dialog
              */
         }
+    }
+
+    public void addNewEventFired(ActionEvent actionEvent) {
+        mainApp.showNewTransactionDialog();
+    }
+
+    public void editEventFired(ActionEvent actionEvent) {
+
     }
 }
