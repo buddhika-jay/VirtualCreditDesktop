@@ -1,60 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-
-<?import javafx.scene.control.*?>
 <?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="537.0" prefWidth="374.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.buddhikajay.controller.NewTransactionDialogController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="352.0" prefWidth="245.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.buddhikajay.controller.NewTransactionDialogController">
    <children>
-      <GridPane hgap="5.0" layoutX="30.0" layoutY="10.0" prefHeight="544.0" prefWidth="314.0" vgap="5.0">
+      <GridPane layoutX="20.0" layoutY="163.0" prefHeight="344.0" prefWidth="245.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="142.0" minWidth="10.0" prefWidth="69.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="226.0" minWidth="10.0" prefWidth="225.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="106.0" minWidth="10.0" prefWidth="66.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="210.0" minWidth="10.0" prefWidth="160.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="105.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="156.0" minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="154.0" minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="160.0" minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="161.0" minHeight="10.0" prefHeight="63.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="301.0" minHeight="10.0" prefHeight="180.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="231.0" minHeight="10.0" prefHeight="106.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="130.0" minHeight="10.0" prefHeight="105.0" vgrow="SOMETIMES" />
         </rowConstraints>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
          <children>
             <Label text="ID" />
             <Label text="Date" GridPane.rowIndex="1" />
-            <Label text="Amont" GridPane.rowIndex="2" />
-            <Label text="Person" GridPane.rowIndex="4" />
+            <Label text="Amount" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+            <TextField GridPane.columnIndex="1" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Type" GridPane.rowIndex="3" />
-            <Label text="Resolved" GridPane.rowIndex="5" />
-            <Label />
-            <Label text="Description" GridPane.rowIndex="6" />
-            <TextField fx:id="idTextField" GridPane.columnIndex="1" />
-            <TextField fx:id="dateTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="amountTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextArea fx:id="descriptionTextArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="225.0" spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <Label text="Person" GridPane.rowIndex="4" />
+            <Label text="Description" GridPane.rowIndex="5" />
+            <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ComboBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <GridPane.margin>
-                  <Insets />
+                  <Insets top="20.0" />
                </GridPane.margin>
-               <padding>
-                  <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
-               </padding>
-               <children>
-                  <Button fx:id="okButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#okActionFired" prefHeight="25.0" prefWidth="75.0" text="Ok" />
-                  <Button fx:id="cancleButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#cancleActionFired" prefHeight="25.0" prefWidth="75.0" text="Cancle" />
-               </children>
-            </HBox>
-            <ComboBox fx:id="typeComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <ComboBox fx:id="personComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <ComboBox fx:id="resolvedComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            </TextArea>
          </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
       </GridPane>
    </children>
 </AnchorPane>
