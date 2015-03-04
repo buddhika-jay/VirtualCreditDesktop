@@ -5,6 +5,7 @@ import com.buddhikajay.library.PersonGeneric;
 import com.buddhikajay.model.TableTransaction;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -34,10 +35,11 @@ public class MainApp extends Application{
      */
     final String DB_URL = "C://Users//Buddhika//Documents//Programming//IdeaProjects//VirtualCreditDesktop//database//test.sqlite";
     private String GET_ALL_TRANSACTIONS = "SELECT * FROM tran";
+    private String TRANSACTION_TABLE = "tran";
 
     public MainApp(){
         //creates test dataset for transactionOverview controller
-        transactions.add(new TableTransaction(1,"Buddhika", 100, "Lend", "2015", "Yes", "Ananm manam" ));//int id, String person, float amount, String type, String date, String resolved, String description
+        //transactions.add(new TableTransaction(1,"Buddhika", 100, "Lend", "2015", "Yes", "Ananm manam" ));//int id, String person, float amount, String type, String date, String resolved, String description
         database = new SqliteDatabase(DB_URL);
         setTransacions();
     }
@@ -122,7 +124,7 @@ public class MainApp extends Application{
             e.printStackTrace();
         }
         try {
-            resultSet = database.getData(GET_ALL_TRANSACTIONS);
+            resultSet = database.query(GET_ALL_TRANSACTIONS);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -149,7 +151,21 @@ public class MainApp extends Application{
 
     }
 
+    //setup listeners for transactions
+    private void setTransactionsLiteners(){
+        transactions.addListener(new ListChangeListener<TableTransaction>() {
+            @Override
+            public void onChanged(Change<? extends TableTransaction> c) {
+                c.getAddedSubList();
+            }
+        });
+    }
+    public boolean addToDatabase(TableTransaction transaction){
+        String query1 = "INSERT INTO"+" "+TRANSACTION_TABLE+" (date, amount, person, type, resolved, description) ";
+        String query2 = "VALUES ('"+transaction.getDate()+"', '"+Float.toString(transaction.getAmount())+"', '"+ transaction.getPerson()+"', '" +transaction.getType()+"', '"+transaction.getResolved()+"', '"+transaction.getDescription()+"')";
+        return this.database.update(query1+query2);
 
+    }
     public ObservableList<TableTransaction> getTransactions() {
         return transactions;
     }

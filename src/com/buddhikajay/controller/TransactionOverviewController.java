@@ -1,27 +1,17 @@
 package com.buddhikajay.controller;
-
-import com.buddhikajay.SqliteDatabase;
 import com.buddhikajay.model.TableTransaction;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Dialogs;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.beans.value.ChangeListener;
-
-import java.awt.*;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.SplittableRandom;
-
 /**
- * Created by Buddhika Jayawardhana on 01/03/2015.
+ * VirtualCreditDesktop Created by Buddhika Jayawardhana on  01/03/2015.
  */
 public class TransactionOverviewController {
     private MainApp mainApp;
